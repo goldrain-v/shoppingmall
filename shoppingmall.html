@@ -58,15 +58,37 @@
 				// console.log(myArray[1]); 
 				// console.log(myArray[2]); 
 				// console.log(myArray[3]); 
-					alert("주문이 완료되었습니다.");
-				} else { 
-				 alert("전화번호를 정확하게 입력해주세요.");
-				}
-			}
-			else{
 				alert("주문이 완료되었습니다.");
+			} else { 
+				alert("전화번호를 정확하게 입력해주세요.");
 			}
 		}
+		else{
+			alert("주문이 완료되었습니다.");
+		}
+	}
+	$('#names-q1').html('');
+	$.ajax({
+		type: "GET",
+		url:"http://spartacodingclub.shop/order",
+		data: {},
+		success: function(response){
+			let rows = response["orders"];
+			for (let i = 0; i < rows.length; i++) {
+				let address = rows[i]['address'];
+				let count = rows[i]['count'];
+				let name = rows[i]['name'];
+				let phone = rows[i]['phone'];
+				let temp_html = '<tr>\
+				<td>'+name+'</td>\
+				<td>'+count+'</td>\
+				<td>'+address+'</td>\
+				<td>'+phone+'</td>\
+				</tr>'
+				$('#names-q1').append(temp_html);
+			}
+		}
+	})
 
 	
 </script>
@@ -130,7 +152,18 @@
 		<div class="btn-">
 			<button  onclick = "btn()" type="button" class="btn btn-primary">주문하기</button>
 		</div>
-
+		<table class ="table">
+			<thead>
+				<tr>
+					<th scope="col">name</th>
+					<th scope="col">count</th>
+					<th scope="col">address</th>
+					<th scope="col">phone</th>
+				</tr>
+			</thead>
+			<tbody id="names-q1">
+			</tbody>
+		</table>
 	</div>
 
 
